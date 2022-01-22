@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Nav from '../components/Nav'
+import Game from '../components/Game'
 import { WordNumberProvider } from '../components/WordNumberContext'
 
 export default function Home() {
@@ -13,6 +14,7 @@ export default function Home() {
       </Head>
       <WordNumberProvider>
         <Nav />
+        <Game />
       </WordNumberProvider>
     </>
   )

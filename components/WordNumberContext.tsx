@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useState, useMemo } from 'react'
 
 export const WordNumberContext = createContext({
-  wordNumber: '',
+  wordNumber: '0',
   setWordNumber: (_: string) => {},
 })
 
