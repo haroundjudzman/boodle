@@ -53,14 +53,15 @@ export default function Tile(props: Props) {
         case 'wrong':
           setBackground('bg-gray-700')
           break
+        default:
       }
     }, props.delay + 200)
-  }, [animate, props.state, props.delay])
+  }, [props.state, props.delay])
 
   return (
     <div
       style={style}
-      className={`rounded-sm uppercase text-white text-center h-full w-full text-dynamic font-bold ${background} flex justify-center items-center ${border} ${borderColor}`}
+      className={`rounded-sm uppercase text-black text-center h-full w-full text-dynamic font-bold ${background} flex justify-center items-center ${border} ${borderColor}`}
     >
       {props.char}
     </div>

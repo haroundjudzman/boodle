@@ -16,6 +16,7 @@ export function getAnswerStates(
 
   const answerChars = answer.split('')
   const userAnswerChars = userAnswer.split('')
+
   for (let i = 0; i < answerChars.length; i++) {
     if (userAnswer[i] === answerChars[i]) {
       states[i] = 'correct'
