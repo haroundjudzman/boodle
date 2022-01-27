@@ -101,9 +101,9 @@ export default function Game() {
   }
 
   return (
-    <div className="mt-5 max-w-fit">
+    <div className="mt-5">
       <div
-        className="grid grid-rows-6 gap-16 aspect-square mx-3"
+        className="grid grid-rows-6 gap-14 aspect-square mx-3"
         key={Number(wordNumber)}
       >
         {Array(6)
@@ -137,7 +137,7 @@ export default function Game() {
           })}
       </div>
       {status !== 'playing' && (
-        <div className="mt-32 mx-3 flex justify-between">
+        <div className="mt-24 mx-3 flex justify-between">
           <div className="font-mono pt-1">
             {status === 'won' && <p>You won! {'🎉'}</p>}
             {status === 'lost' && (

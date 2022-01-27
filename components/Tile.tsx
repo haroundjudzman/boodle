@@ -39,7 +39,7 @@ export default function Tile(props: Props) {
   return (
     <div
       style={style}
-      className={`text-2xl font-sans uppercase text-black text-center h-[70px] w-[64px] font-medium ${background} flex justify-center items-center ${border} ${borderColor} ${shadow}`}
+      className={`text-2xl font-sans uppercase text-black text-center h-[64px] w-[64px] font-medium ${background} flex justify-center items-center ${border} ${borderColor} ${shadow}`}
     >
       {props.char}
     </div>
