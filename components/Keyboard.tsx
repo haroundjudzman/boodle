@@ -8,12 +8,10 @@ interface Props {
   onSubmit: () => void
   gameState: GameState
   answer: string
-  isAnimating: MutableRefObject<boolean>
 }
 
 export default function Keyboard(props: Props) {
-  const { onPressChar, onBackspace, onSubmit, gameState, answer, isAnimating } =
-    props
+  const { onPressChar, onBackspace, onSubmit, gameState, answer } = props
   const usedChars = new Set(
     gameState.answers
       .slice(0, gameState.attempt)
@@ -62,10 +60,6 @@ export default function Keyboard(props: Props) {
         return
       }
 
-      if (isAnimating.current) {
-        return
-      }
-
       pressed.current = true
       if (e.key === 'Backspace') {
         onBackspace()
@@ -91,10 +85,10 @@ export default function Keyboard(props: Props) {
 
   return (
     <div
-      className="max-w-lg w-full mx-auto gap-3 flex flex-col p-4"
+      className="fixed bottom-1 w-[min(100vw,32rem)] grid grid-rows-3 gap-1 p-1"
       id="keyboard"
     >
-      <div className="flex gap-2">
+      <div className="row-span-1 flex gap-1">
         {'qwertyuiop'.split('').map((char) => (
           <KeyboardButton
             key={char}
@@ -105,8 +99,8 @@ export default function Keyboard(props: Props) {
           </KeyboardButton>
         ))}
       </div>
-      <div className="flex gap-2">
-        <div style={{ flex: 0.5 }}></div>
+      <div className="row-span-1 flex gap-1">
+        <div style={{ flex: 0.5 }} />
         {'asdfghjkl'.split('').map((char) => (
           <KeyboardButton
             key={char}
@@ -116,22 +110,7 @@ export default function Keyboard(props: Props) {
             {char}
           </KeyboardButton>
         ))}
-        <div style={{ flex: 0.5 }}></div>
-      </div>
-      <div className="flex gap-2">
-        <KeyboardButton state={null} onClick={onSubmit} scale={1.5}>
-          Enter
-        </KeyboardButton>
-        {'zxcvbnm'.split('').map((char) => (
-          <KeyboardButton
-            key={char}
-            state={getKeyboardState(char)}
-            onClick={() => onPressChar(char)}
-          >
-            {char}
-          </KeyboardButton>
-        ))}
-        <KeyboardButton state={null} onClick={onBackspace} scale={1.5}>
+        {/* <KeyboardButton state={null} onClick={onBackspace} scale={1}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="24"
@@ -143,7 +122,31 @@ export default function Keyboard(props: Props) {
               d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z"
             ></path>
           </svg>
+        </KeyboardButton> */}
+        <div style={{ flex: 0.5 }} />
+      </div>
+      <div className="row-span-1 flex gap-1">
+        <KeyboardButton key={'→'} state={null} onClick={onSubmit} scale={1.5}>
+          {'↵'}
         </KeyboardButton>
+        {'zxcvbnm'.split('').map((char) => (
+          <KeyboardButton
+            key={char}
+            state={getKeyboardState(char)}
+            onClick={() => onPressChar(char)}
+          >
+            {char}
+          </KeyboardButton>
+        ))}
+        <KeyboardButton
+          key={'⌫'}
+          state={null}
+          onClick={onBackspace}
+          scale={1.5}
+        >
+          {'⌫'}
+        </KeyboardButton>
+        {/* <div style={{ flex: 1.5 }}></div> */}
       </div>
     </div>
   )

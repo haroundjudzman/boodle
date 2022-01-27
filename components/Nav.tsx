@@ -5,11 +5,11 @@ export default function Nav() {
   const { wordNumber, setWordNumber } = useContext(WordNumberContext)
 
   return (
-    <div className="flex justify-between items-center px-3 py-2 border-b-2">
-      <p className="font-mono">boodle</p>
-      <div className="flex justify-between">
+    <div className="flex justify-between pt-2 pb-2 border-b-2">
+      <p className="font-mono pl-3">boodle</p>
+      <div className="flex justify-between pr-2">
         <svg
-          className="w-6 h-6"
+          className="w-6 h-6 shadow-sm rounded-sm"
           fill="currentColor"
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
@@ -23,12 +23,12 @@ export default function Nav() {
         </svg>
         <input
           inputMode="numeric"
-          className="w-6 accent-red-500 caret-red-500 text-center"
+          className="w-12 accent-red-500 caret-red-500 text-center font-sans mx-1"
           value={wordNumber}
           onChange={(e) => setWordNumber(e.target.value)}
         ></input>
         <svg
-          className="w-6 h-6"
+          className="w-6 h-6 shadow-sm rounded-sm"
           fill="currentColor"
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"

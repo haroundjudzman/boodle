@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { WordNumberContext } from './WordNumberContext'
 import { getSolution, getValidWords } from '../libs/words'
 import { GameState } from '../libs/types'
@@ -13,25 +13,22 @@ const initialState: GameState = {
 }
 
 export default function Game() {
-  const { wordNumber } = useContext(WordNumberContext)
+  const { wordNumber, setWordNumber } = useContext(WordNumberContext)
   const [gameState, setGameState] = useState(initialState)
   const solution = getSolution(Number(wordNumber))
   const validWords = getValidWords()
   const [invalidAnswer, setInvalidAnswer] = useState(false)
-  const isAnimating = useRef(null)
-  const [resetIndex, setResetIndex] = useState(0)
+  const [status, setStatus] = useState('playing')
 
+  console.log(wordNumber)
   useEffect(() => {
     setGameState(initialState)
+    setStatus('playing')
   }, [wordNumber])
 
   function handlePressChar(char: string) {
     // ignore if already finished
     if (gameState.answers[gameState.attempt - 1] === solution) {
-      return
-    }
-
-    if (isAnimating.current) {
       return
     }
 
@@ -48,10 +45,6 @@ export default function Game() {
   }
 
   function handleBackspace() {
-    if (isAnimating.current) {
-      return
-    }
-
     setGameState({
       answers: gameState.answers.map((answer, i) => {
         if (i === gameState.attempt) {
@@ -65,10 +58,6 @@ export default function Game() {
   }
 
   function handleSubmit() {
-    if (isAnimating.current) {
-      return
-    }
-
     // ignore submission if the answer is already correct
     if (gameState.answers[gameState.attempt - 1] === solution) {
       return
@@ -97,32 +86,27 @@ export default function Game() {
       attempt: gameState.attempt + 1,
     })
 
-    isAnimating.current = true
-    setTimeout(() => {
-      isAnimating.current = false
-
-      if (solution === userAnswer) {
-        console.log('SUCCESS')
-      } else if (gameState.attempt === 5) {
-        console.log('GAGAL')
-      }
-    }, 400 * 6)
+    if (solution === userAnswer) {
+      setStatus('won')
+    } else if (gameState.attempt === 5) {
+      setStatus('lost')
+    }
   }
 
   function markInvalid() {
     setInvalidAnswer(true)
     setTimeout(() => {
       setInvalidAnswer(false)
-    }, 600)
+    }, 300)
   }
 
   return (
-    <div className="flex flex-col gap-1 mt-1 w-[calc(320px+1rem)] mx-auto">
+    <div className="mt-5 max-w-fit">
       <div
-        className="grid grid-rows-6 gap-1.5 max-w-full aspect-square"
+        className="grid grid-rows-6 gap-16 aspect-square mx-3"
         key={Number(wordNumber)}
       >
-        {Array(2)
+        {Array(6)
           .fill('')
           .map((_, i) => {
             let userAnswer = gameState.answers[i] ?? ''
@@ -130,7 +114,7 @@ export default function Game() {
 
             const answerStates = getAnswerStates(userAnswer, solution)
             return (
-              <div className="grid grid-cols-5 gap-1.5 relative" key={i}>
+              <div className="grid grid-cols-5 gap-1.5 justify-center" key={i}>
                 {userAnswer.split('').map((char, index) => {
                   let state = null
                   if (i < gameState.attempt) {
@@ -144,7 +128,6 @@ export default function Game() {
                         char={char}
                         state={state}
                         isInvalid={isInvalid}
-                        delay={300 * index}
                       />
                     </React.Fragment>
                   )
@@ -153,13 +136,32 @@ export default function Game() {
             )
           })}
       </div>
+      {status !== 'playing' && (
+        <div className="mt-32 mx-3 flex justify-between">
+          <div className="font-mono pt-1">
+            {status === 'won' && <p>You won! {'🎉'}</p>}
+            {status === 'lost' && (
+              <p className="uppercase text-lg ">{solution}</p>
+            )}
+          </div>
+          <div>
+            <button
+              className="bg-stone-700 text-white px-4 py-1 rounded font-mono inline-block hover:bg-stone-500"
+              onClick={() => {
+                setWordNumber(Math.floor(Math.random() * (2314 - 0)).toString())
+              }}
+            >
+              {status === 'won' ? 'Go again!' : 'Try again?'}
+            </button>
+          </div>
+        </div>
+      )}
       <Keyboard
         gameState={gameState}
         answer={solution}
         onPressChar={handlePressChar}
         onBackspace={handleBackspace}
         onSubmit={handleSubmit}
-        isAnimating={isAnimating}
       />
     </div>
   )
