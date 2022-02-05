@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import Nav from '../components/Nav'
 import Game from '../components/Game'
 import { WordNumberProvider } from '../components/WordNumberContext'
 
@@ -14,7 +13,6 @@ export default function Home() {
       </Head>
       <WordNumberProvider>
         <div className="h-screen">
-          <Nav />
           <Game />
         </div>
       </WordNumberProvider>
