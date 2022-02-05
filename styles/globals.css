@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+.absolute-center {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-15%);
+  z-index: 10;
+}
+
 @keyframes bounce {
   0%,
   20% {
